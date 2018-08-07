@@ -1,0 +1,55 @@
+<?php
+//Если была нажата кнопка ОК,
+//то отправляем письмо и информируем об этом пользователя
+if (isset($_POST['okbutton']))
+{
+  if ($_POST['person']=='' or $_POST['email']=='' or
+ $_POST['question']=='')
+  {
+    echo "<font color='red'>Вы ввели не все данные</font>";
+    echo "<br><a href=backform.php>Назад</a>";
+    exit;
+  }
+ 
+    //Куда будет отправлено письмо
+    $komu="coolmedved@mail.ru";
+    //Тема письма
+    $tema="Вопрос от ".$_POST['person']."".$_POST['e-mail'];
+    //Само письмо
+    $text_pisma=$_POST['question'];
+ 
+    //Отправляем письмо
+    mail($komu,$tema,$text_pisma);
+ 
+    echo "Ваш вопрос был отправлен администратору";
+    echo "<br><a href=backform.php>Назад</a>";
+    //Выполнять больше нечего, выходим из программы
+    exit;
+}
+?>
+
+<form action="" method="post">
+Ваше имя:<br>
+<input type="text" name="person">
+<br>
+Ваш e-mail:<br>
+<input type="text" name="email">
+<br>
+Вопрос администратору:<br>
+<textarea name="question"  cols=40 rows=5></textarea>
+<br>
+<input type="submit" name="okbutton" value="OK">
+</form>
+
+
+$komu= "xxx@xxx.xx , ddd@ddd.dd"; // можно есколько адресатов через запятую
+$tema="Тут тема письма";
+$text_pisma="Тут содержимое письма";
+$headers = 'Content-type: text/html; charset=windows-1251 ' . "\r\n" . 'From: admin@admin.ru';
+$send=@mail($to, $tema , $text_pisma , $headers);
+## проверочка 
+if ($send) { ## если отправлено
+echo="Письмо успешно отправлено.";
+} else { ## если не отправлено
+echo="Произошла ошибка во время отправки письма...";
+}
